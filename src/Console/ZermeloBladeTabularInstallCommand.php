@@ -1,16 +1,16 @@
 <?php
 
-namespace CareSet\ZermeloBladeTabular\Console;
+namespace CareSet\ZermeloBladeCard\Console;
 
 use CareSet\Zermelo\Console\AbstractZermeloInstallCommand;
 
-class ZermeloBladeTabularInstallCommand extends AbstractZermeloInstallCommand
+class ZermeloBladeCardInstallCommand extends AbstractZermeloInstallCommand
 {
     protected $view_path = __DIR__.'/../../views';
 
     protected $asset_path = __DIR__.'/../../assets';
 
-    protected $config_file = __DIR__.'/../../config/zermelobladetabular.php';
+    protected $config_file = __DIR__.'/../../config/zermelobladecard.php';
 
     /**
      * The views that need to be exported.
@@ -18,8 +18,8 @@ class ZermeloBladeTabularInstallCommand extends AbstractZermeloInstallCommand
      * @var array
      */
     protected $views = [
-        'zermelo/tabular.blade.php',
-        'zermelo/layouts/tabular.blade.php',
+        'zermelo/card.blade.php',
+        'zermelo/layouts/card.blade.php',
     ];
 
     /**
@@ -27,6 +27,6 @@ class ZermeloBladeTabularInstallCommand extends AbstractZermeloInstallCommand
      *
      * @var string
      */
-    protected $signature = 'install:zermelobladetabular
+    protected $signature = 'install:zermelobladecard
                     {--force : Overwrite existing views by default}';
 }
