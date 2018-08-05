@@ -1,6 +1,6 @@
 <?php
 
-namespace CareSet\ZermeloBladeTabular\Generators;
+namespace CareSet\ZermeloBladeCard\Generators;
 
 use CareSet\Zermelo\Interfaces\CacheInterface;
 use CareSet\Zermelo\Interfaces\GeneratorInterface;

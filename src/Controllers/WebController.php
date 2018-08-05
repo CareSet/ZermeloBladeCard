@@ -1,10 +1,10 @@
 <?php
 
-namespace CareSet\ZermeloBladeTabular\Controllers;
+namespace CareSet\ZermeloBladeCard\Controllers;
 
 use CareSet\Zermelo\Interfaces\ControllerInterface;
 use CareSet\Zermelo\Models\ZermeloReport;
-use CareSet\ZermeloBladeTabular\Models\TabularPresenter;
+use CareSet\ZermeloBladeCard\Models\CardPresenter;
 use DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,11 +12,11 @@ class WebController implements ControllerInterface
 {
     public function show( ZermeloReport $report )
     {
-        $presenter = new TabularPresenter( $report );
+        $presenter = new CardPresenter( $report );
 
         $presenter->setApiPrefix( api_prefix() );
-        $presenter->setReportPath( config('zermelobladetabular.TABULAR_URI_PREFIX', '') );
-        $presenter->setSummaryPath( config('zermelobladetabular.SUMMARY_URI_PREFIX', '') );
+        $presenter->setReportPath( config('zermelobladecard.TABULAR_URI_PREFIX', '') );
+        $presenter->setSummaryPath( config('zermelobladecard.SUMMARY_URI_PREFIX', '') );
 
         $user = Auth::guard()->user();
         if ( $user ) {
@@ -25,7 +25,7 @@ class WebController implements ControllerInterface
 
         $view = $presenter->getReportView();
         if ( !$view ) {
-            $view = config("zermelobladetabular.TABULAR_VIEW_TEMPLATE");
+            $view = config("zermelobladecard.TABULAR_VIEW_TEMPLATE");
         }
 
         return view( $view, [ 'presenter' => $presenter ] );
@@ -33,7 +33,7 @@ class WebController implements ControllerInterface
 
     public function prefix() : string
     {
-        $prefix = config('zermelobladetabular.TABULAR_URI_PREFIX', "" );
+        $prefix = config('zermelobladecard.TABULAR_URI_PREFIX', "" );
         return $prefix;
     }
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace CareSet\ZermeloBladeTabular;
+namespace CareSet\ZermeloBladeCard;
 
 use CareSet\Zermelo\Models\AbstractZermeloProvider;
-use CareSet\ZermeloBladeTabular\Console\ZermeloBladeTabularInstallCommand;
-use CareSet\ZermeloBladeTabular\Controllers\ApiController;
-use CareSet\ZermeloBladeTabular\Controllers\SummaryController;
-use CareSet\ZermeloBladeTabular\Controllers\WebController;
+use CareSet\ZermeloBladeCard\Console\ZermeloBladeCardInstallCommand;
+use CareSet\ZermeloBladeCard\Controllers\ApiController;
+use CareSet\ZermeloBladeCard\Controllers\SummaryController;
+use CareSet\ZermeloBladeCard\Controllers\WebController;
 
 
 Class ServiceProvider extends AbstractZermeloProvider
@@ -28,7 +28,7 @@ Class ServiceProvider extends AbstractZermeloProvider
          *  - Exports Assets
          */
         $this->commands([
-            ZermeloBladeTabularInstallCommand::class
+            ZermeloBladeCardInstallCommand::class
         ]);
 
         /*
@@ -36,14 +36,14 @@ Class ServiceProvider extends AbstractZermeloProvider
          * Try to load config from the app's config directory first,
          * then load from the package.
          */
-        if ( file_exists( config_path( 'zermelobladetabular.php' ) ) ) {
+        if ( file_exists( config_path( 'zermelobladecard.php' ) ) ) {
 
             $this->mergeConfigFrom(
-                config_path( 'zermelobladetabular.php' ), 'zermelobladetabular'
+                config_path( 'zermelobladecard.php' ), 'zermelobladecard'
             );
         } else {
             $this->mergeConfigFrom(
-                __DIR__.'/../config/zermelobladetabular.php', 'zermelobladetabular'
+                __DIR__.'/../config/zermelobladecard.php', 'zermelobladecard'
             );
         }
 
