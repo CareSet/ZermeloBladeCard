@@ -1,12 +1,12 @@
 {
-    "name": "careset/zermelobladetabular",
+    "name": "careset/zermelobladecard",
     "version": "0.0.1",
     "require": {
         "php": ">=7.0.0"
     },
     "autoload": {
         "psr-4" : {
-            "CareSet\\ZermeloBladeTabular\\" : "src/"
+            "CareSet\\ZermeloBladeCard\\" : "src/"
         }
     },
     "extra": {
@@ -15,7 +15,7 @@
         },
 	    "laravel": {
 	        "providers": [
-	            "CareSet\\ZermeloBladeTabular\\ServiceProvider"
+	            "CareSet\\ZermeloBladeCard\\ServiceProvider"
 	        ]
 	    }
 	},
