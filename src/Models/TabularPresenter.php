@@ -5,12 +5,12 @@
  * Date: 7/5/18
  * Time: 1:03 PM
  */
-namespace CareSet\ZermeloBladeTabular\Models;
+namespace CareSet\ZermeloBladeCard\Models;
 
 use CareSet\Zermelo\Models\AbstractPresenter;
 use CareSet\Zermelo\Models\ZermeloReport;
 
-class TabularPresenter extends AbstractPresenter
+class CardPresenter extends AbstractPresenter
 {
     private $_api_prefix = null;
     private $_report_path = null;
