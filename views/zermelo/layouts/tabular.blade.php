@@ -11,7 +11,7 @@
 <body>
 
 
-@include('Zermelo::tabular')
+@include('Zermelo::card')
 
 </body>
 </html>
