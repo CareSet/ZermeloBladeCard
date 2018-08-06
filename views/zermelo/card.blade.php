@@ -52,7 +52,7 @@
 function doh_ajax_failed(jqxhr, textStatus, error){
 
                 var is_admin = true; //this should be set via a call to the presenter
-/*
+
                 if(is_admin){
                         if(typeof jqxhr.responseJSON.message !== 'undefined'){
                                 $('#json_error_message').html("<h1> You had a error </h1> <p> " + jqxhr.responseJSON.message + "</p>");
@@ -63,7 +63,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                         $('#json_error_message').html("<h1> There was an error generating this report</h1>");
                 }
                 $('#json_error_message').show();
-*/
+
 }
 
 
@@ -119,26 +119,22 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			)
 		    .done(function(data) {
 
-			var cards_html = "<div class='card-deck'>";
+			var cards_html = "<div class='row justify-content-left'>";
 			var i = 0;
 			var new_row = false;
 			var is_empty = true;
+
+			var card_width = '{{ $presenter->getReport()->cardWidth() }}';
+
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
 
+				
 
-				if(i % {{ $presenter->getReport()->card_per_row() }} == 0 ){
-					new_row = true;
-				}else{
-					new_row = false;
-				}
-				 
-				if(new_row){
-					cards_html += "</div> <br> <div class='card-deck'>";
-				}
+				console.log(this_card.card_img_top);
 
-				if('card_img_top' in this_card){
-					if('card_img_top_alttext' in this_card){
+				if(isset(this_card.card_img_top)){
+					if(isset(this_card.card_img_top_alttext)){
 						card_img_top = `<img class="card-img-top" src="${this_card.card_img_top}" alt="${this_card.card_img_top_alttext}">`
 					}else{
 						card_img_top = `<img class="card-img-top" src="${this_card.card_img_top}">`
@@ -147,8 +143,8 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 					card_img_top = '';
 				}
 	
-				if('card_img_bottom' in this_card){
-					if('card_img_bottom_alttext' in this_card){
+				if(isset(this_card.card_img_bottom)){
+					if(isset(this_card.card_img_bottom_alttext)){
 						card_img_bottom = `<img class="card-img-top" src="${this_card.card_img_bottom}" alt="${this_card.card_img_bottom_alttext}">`
 					}else{
 						card_img_bottom = `<img class="card-img-top" src="${this_card.card_img_bottom}">`
@@ -159,7 +155,8 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 
 				cards_html += `
-	<div class="card">
+<div class="col-auto mb-3">
+	<div style='width: ${card_width}' class="card" >
 		${card_img_top}
   		<div class="card-header text-center">${this_card.card_header}</div>
   		<div class="card-body">
@@ -170,6 +167,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
     ${this_card.card_footer}
   		</div>
 		${card_img_bottom}
+	</div>
 </div>
 `;
 				i++;
@@ -187,4 +185,39 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 
     });
+
+function isset () {
+  //  discuss at: http://locutus.io/php/isset/
+  // original by: Kevin van Zonneveld (http://kvz.io)
+  // improved by: FremyCompany
+  // improved by: Onno Marsman (https://twitter.com/onnomarsman)
+  // improved by: Rafał Kukawski (http://blog.kukawski.pl)
+  //   example 1: isset( undefined, true)
+  //   returns 1: false
+  //   example 2: isset( 'Kevin van Zonneveld' )
+  //   returns 2: true
+
+  var a = arguments
+  var l = a.length
+  var i = 0
+  var undef
+
+
+  if (l === 0) {
+    throw new Error('Empty isset')
+  }
+
+  while (i !== l) {
+    if (a[i] === undef || a[i] === null || a[i] === '') {
+      return false
+    }
+    i++
+  }
+
+  return true
+}
+
+
+
+
 </script>
