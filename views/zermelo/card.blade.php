@@ -135,9 +135,9 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 				if(isset(this_card.card_img_top)){
 					if(isset(this_card.card_img_top_alttext)){
-						card_img_top = `<img class="card-img-top" src="${this_card.card_img_top}" alt="${this_card.card_img_top_alttext}">`
+						card_img_top = `<img style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}" alt="${this_card.card_img_top_alttext}">`
 					}else{
-						card_img_top = `<img class="card-img-top" src="${this_card.card_img_top}">`
+						card_img_top = `<img style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}">`
 					}
 				}else{
 					card_img_top = '';
@@ -145,9 +145,9 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 	
 				if(isset(this_card.card_img_bottom)){
 					if(isset(this_card.card_img_bottom_alttext)){
-						card_img_bottom = `<img class="card-img-top" src="${this_card.card_img_bottom}" alt="${this_card.card_img_bottom_alttext}">`
+						card_img_bottom = `<img style="width: ${card_width}"  class="card-img-top" src="${this_card.card_img_bottom}" alt="${this_card.card_img_bottom_alttext}">`
 					}else{
-						card_img_bottom = `<img class="card-img-top" src="${this_card.card_img_bottom}">`
+						card_img_bottom = `<img style="width: ${card_width}"  class="card-img-top" src="${this_card.card_img_bottom}">`
 					}
 				}else{
 					card_img_bottom = '';
