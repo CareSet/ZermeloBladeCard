@@ -18,7 +18,7 @@ Class ServiceProvider extends AbstractZermeloProvider
         WebController::class
     ];
 
-    public function boot(\Illuminate\Routing\Router $router)
+    public function onBeforeRegister()
 	{
 
         /*
