@@ -17,7 +17,7 @@ class ApiController implements ControllerInterface
         $presenter->setApiPrefix( api_prefix() );
         $presenter->setReportPath( config('zermelobladecard.TABULAR_URI_PREFIX') );
         $presenter->setSummaryPath( config('zermelobladecard.SUMMARY_URI_PREFIX') );
-        $cache = new DatabaseCache();
+        $cache = new DatabaseCache( $report );
         $generator = new ReportGenerator( $cache );
         return $generator->toJson( $report );
     }
