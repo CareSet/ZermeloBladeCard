@@ -22,6 +22,10 @@ SET time_zone = "+00:00";
 
 -- --------------------------------------------------------
 
+CREATE DATABASE IF NOT EXISTS `zermelo_cards`;
+use zermelo_cards;
+
+DROP TABLE IF EXISTS `cards`;
 --
 -- Table structure for table `cards`
 --
