@@ -42,6 +42,16 @@ class CardTest extends ZermeloReport
      */
     public $REPORT_VIEW = null;
 
+    public function is_fluid()
+    {
+        return true;
+    }
+
+    public function cardWidth()
+    {
+        return "140px";
+    }
+
 
     /**
      * This is what builds the report. It will accept a SQL statement or an Array of sql statements.
