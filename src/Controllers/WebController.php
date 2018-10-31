@@ -14,7 +14,8 @@ class WebController implements ControllerInterface
     {
         $presenter = new CardPresenter( $report );
 
-        $presenter->setApiPrefix( api_prefix() );
+	$api_prefix = trim( config("zermelo.URI_API_PREFIX"), "/ " );
+        $presenter->setApiPrefix( $api_prefix );
         $presenter->setReportPath( config('zermelobladecard.TABULAR_URI_PREFIX', '') );
         $presenter->setSummaryPath( config('zermelobladecard.SUMMARY_URI_PREFIX', '') );
 
