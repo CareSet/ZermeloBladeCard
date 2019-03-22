@@ -1,8 +1,8 @@
 <?php
 namespace App\Reports;
-use CareSet\Zermelo\Models\ZermeloReport;
+use CareSet\Zermelo\Reports\Cards\AbstractCardsReport;
 
-class CardTest extends ZermeloReport
+class CardTest extends AbstractCardsReport
 {
 
     const REPORT_NAME 	= "Card Test";

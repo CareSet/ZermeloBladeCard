@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: kchapple
- * Date: 7/5/18
- * Time: 1:03 PM
- */
-namespace CareSet\ZermeloBladeCard\Models;
+
+namespace CareSet\ZermeloBladeCard;
 
 use CareSet\Zermelo\Models\AbstractPresenter;
-use CareSet\Zermelo\Models\ZermeloReport;
+use CareSet\Zermelo\Reports\Cards\AbstractCardsReport;
 
 class CardPresenter extends AbstractPresenter
 {
@@ -16,7 +11,7 @@ class CardPresenter extends AbstractPresenter
     private $_report_path = null;
     private $_summary_path = null;
 
-    public function __construct( ZermeloReport $report )
+    public function __construct( AbstractCardsReport $report )
     {
         parent::__construct( $report );
     }
