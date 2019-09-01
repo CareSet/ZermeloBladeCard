@@ -5,53 +5,14 @@ use CareSet\Zermelo\Reports\Cards\AbstractCardsReport;
 class CardTest extends AbstractCardsReport
 {
 
-    const REPORT_NAME 	= "Card Test";
-    const DESCRIPTION 	= "Card Test";
+    public function GetReportName(): string { return('Enter Your Report Name Here'); }
+    public function GetReportDescription(): ?string { return('Enter Your Report Description Here HTML is allowed for forms and such'); }
 
+    //should this card view use a fluid boostrap container
+    public function is_fluid() { return true; }
 
-    /**
-     * Header Format 'auto-detection' can be changed per report.
-     * By default, these are the column formats -
-     * 	public $DETAIL     = ['Sentence'];
-     * 	public $URL        = ['URL'];
-     * 	public $CURRENCY   = ['Amt','Amount','Paid','Cost'];
-     * 	public $NUMBER     = ['id','#','Num','Sum','Total','Cnt','Count'];
-     * 	public $DECIMAL    = ['Avg','Average'];
-     * 	public $PERCENT    = ['Percent','Ratio','Perentage'];
-     *
-     *	It detects the column by using 'word' matching, separated white spaces or _.
-     *	Example: TABLE_ROWS - ['TABLE','ROWS']
-     *	It will also check the full column name
-     */
-    public $NUMBER     = ['ROWS','AVG','LENGTH','DATA_FREE'];
-
-
-    /*
-    * By Default, any numeric field will have statistical information will be passed on. AVG/STD/MIN/MAX/SUM
-    * Any Text column will have distinct count information passed on.
-    * Any Date will have MIN/MAX/AVG
-    * This field will add a "NO_SUMMARY" field to the column header to suggest the data not be displayed
-    */
-    public $SUGGEST_NO_SUMMARY = ['ID'];
-
-
-    /**
-     * Can customize the report view based on the report
-     * By default, use the view defined in the configuration file.
-     *
-     */
-    public $REPORT_VIEW = null;
-
-    public function is_fluid()
-    {
-        return true;
-    }
-
-    public function cardWidth()
-    {
-        return "140px";
-    }
-
+    //how wide should each card be?
+    public function cardWidth() { return "250px"; }
 
     /**
      * This is what builds the report. It will accept a SQL statement or an Array of sql statements.
@@ -63,6 +24,16 @@ class CardTest extends AbstractCardsReport
      **/
     public function GetSQL()
     {
+	//this is based on the cards element from bootstrap https://getbootstrap.com/docs/4.3/components/card/ in the standard view
+	//card_header is text at the top card.
+	//card_title will be the title of the card, inside the card content
+	//card_text is beneath the title in the card content
+	//card_img_top is the image at the top of the card
+	//card_img_bottom is the image at the bottom of the card
+	//card_img_top_alttext sets the alttext of the image at the top
+	//card_img_bottom_alttext sets the alttext of the image at the bottom
+	//card_footer is the text inside the footer of the card
+
         $sql = "
 SELECT 
 	id AS card_header,
@@ -73,6 +44,7 @@ SELECT
 	id AS card_footer
 FROM zermelo_cards.cards
 ";
+
         return $sql;
     }
 
@@ -80,7 +52,6 @@ FROM zermelo_cards.cards
      * Each row content will be passed to MapRow.
      * Values and header names can be changed.
      * Columns cannot be added or removed
-     *
      */
     public function MapRow(array $row, int $row_number) :array
     {
@@ -120,22 +91,54 @@ FROM zermelo_cards.cards
         //$format['time_field'] = 			['TIME']; //future time display
     }
 
+    /**
+     * Can customize the report view based on the report
+     * By default, use the view defined in the configuration file.
+     *
+     */
+    public $REPORT_VIEW = null;
+
+    /**
+     * Header Format 'auto-detection' can be changed per report.
+     * By default, these are the column formats -
+     * 	public $DETAIL     = ['Sentence'];
+     * 	public $URL        = ['URL'];
+     * 	public $CURRENCY   = ['Amt','Amount','Paid','Cost'];
+     * 	public $NUMBER     = ['id','#','Num','Sum','Total','Cnt','Count'];
+     * 	public $DECIMAL    = ['Avg','Average'];
+     * 	public $PERCENT    = ['Percent','Ratio','Perentage'];
+     *
+     *	It detects the column by using 'word' matching, separated white spaces or _.
+     *	Example: TABLE_ROWS - ['TABLE','ROWS']
+     *	It will also check the full column name
+     */
+    public $NUMBER     = ['ROWS','AVG','LENGTH','DATA_FREE'];
+
 
     /*
-    * Get the Report Name, by default it will fetch the const REPORT_NAME.
-    * This can be overridden to custom return different Name based on Input
+    * By Default, any numeric field will have statistical information will be passed on. AVG/STD/MIN/MAX/SUM
+    * Any Text column will have distinct count information passed on.
+    * Any Date will have MIN/MAX/AVG
+    * This field will add a "NO_SUMMARY" field to the column header to suggest the data not be displayed
     */
-    public function GetReportName(): string
-    {
-        return self::REPORT_NAME;
-    }
+    public $SUGGEST_NO_SUMMARY = ['ID'];
 
-    /*
-    * Get the Report Description, by default it will fetch the const DESCRIPTION.
-    * This can be overridden to custom return different description based on Input
+    /**
+    * If the cache is not enabled, then every time the page is reloaded the entire report is re-processed and put into the cache table
+    * So if you want to just run the report one time, and then load subsequent data from the cache, set this to return 'true';
     */
-    public function GetReportDescription(): ?string
-    {
-        return self::DESCRIPTION;
-    }
+   public function isCacheEnabled(){
+        return(false);
+   }
+
+    /**
+    * This function does nothing if isCacheEnabled is returning false
+    * But if the cache is enabled, then this will detail how long the report will be reloaded from the cache 
+    * before the cache is regenerated by re-running the report SQL
+    */
+   public function howLongToCacheInSeconds(){
+        return(1200); //twenty minutes by default
+   }
+
+
 }
