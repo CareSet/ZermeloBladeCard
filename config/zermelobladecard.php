@@ -21,4 +21,9 @@ return [
      */
     'URI_PREFIX'=>env("URI_PREFIX","ZermeloCard"),
 
+    /**
+     * Bootstrap CSS file, you may overwrite the default here.
+     */
+    'BOOTSTRAP_CSS_LOCATION' => 'vendor/CareSet/zermelobladecard/bootstrap-4.3.1/css/bootstrap.min.css',
+
 ];

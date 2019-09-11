@@ -35,16 +35,16 @@
 "></div>
 
 
-<script type="text/javascript" src="/vendor/CareSet/js/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/popper.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/datatables.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/jquery.dataTables.yadcf.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/moment.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/daterangepicker.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/d3.v4.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/datatables.fixedcolumns.destroy.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/js/jquery.doubleScroll.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/popper.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.dataTables.yadcf.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/moment.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/daterangepicker.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/d3.v4.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.fixedcolumns.destroy.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.doubleScroll.js"></script>
 
 <script type="text/javascript">
 
@@ -96,7 +96,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
                     var passthrough_params = {!! $presenter->getReport()->getRequestFormInput( true ) !!};
                     var merge_get_params = {
-                        'data-option': '{{ $presenter->getReport()->GetBoltId() }}',
+                        'data-option': ''
                         'token': '{{ $presenter->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
                         "order": callbackOrder,
