@@ -3,6 +3,7 @@
 namespace CareSet\ZermeloBladeCard;
 
 use CareSet\Zermelo\Models\AbstractZermeloProvider;
+use CareSet\ZermeloBladeCard\Console\MakeCardsReportCommand;
 use CareSet\ZermeloBladeCard\Console\ZermeloBladeCardInstallCommand;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +21,8 @@ Class ServiceProvider extends AbstractZermeloProvider
          *  - Exports Assets
          */
         $this->commands([
-            ZermeloBladeCardInstallCommand::class
+            ZermeloBladeCardInstallCommand::class,
+            MakeCardsReportCommand::class
         ]);
 
         /*
