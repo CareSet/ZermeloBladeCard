@@ -96,7 +96,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
                     var passthrough_params = {!! $presenter->getReport()->getRequestFormInput( true ) !!};
                     var merge_get_params = {
-                        'data-option': ''
+                        'data-option': '',
                         'token': '{{ $presenter->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
                         "order": callbackOrder,
