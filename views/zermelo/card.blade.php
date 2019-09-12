@@ -74,7 +74,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
         var columnMap = [];
         var fixedColumns = null;
 
-        $.getJSON('{{ $presenter->getSummaryUri() }}',
+        $.getJSON('{{ $summary_uri }}',
             {
                 'token': '{{ $presenter->getToken() }}',
                 'request-form-input': '{!! urlencode($presenter->getReport()->getRequestFormInput(true)) !!}',
@@ -112,7 +112,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     var param = decodeURIComponent( $.param(merge) );
 
 			//now lets get the actual data...
-                    $.getJSON('{{ $presenter->getReportUri() }}', param
+                    $.getJSON('{{ $report_uri }}', param
                     ).fail(function (jqxhr, textStatus, error){
             		doh_ajax_failed(jqxhr, textStatus, error);
 			console.log('I get to this fail');
