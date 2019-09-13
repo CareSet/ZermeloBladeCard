@@ -1,7 +1,7 @@
 <html>
 <head>
 
-<title>{{ $presenter->getReport()->getReportName()  }}</title>
+<title>{{ $report->getReportName()  }}</title>
 
 <link rel="stylesheet" type="text/css" href='{{ $bootstrap_css_location }}'/>
 <link rel="stylesheet" type="text/css" href='{{ asset("vendor/CareSet/zermelobladecard/datatables/datatables.min.css") }}'/>

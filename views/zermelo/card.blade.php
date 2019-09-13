@@ -1,16 +1,16 @@
 <div class="container-fluid">
 	<div>
-		<h1> {{ $presenter->getReport()->GetReportName()  }}</h1>
+		<h1> {{ $report->GetReportName()  }}</h1>
 	</div>
 	<div>
-		{!! $presenter->getReport()->GetReportDescription() !!}
+		{!! $report->GetReportDescription() !!}
 	</div>
 
 	<div style='display: none' id='json_error_message' class="alert alert-danger" role="alert">
 
 	</div>
 
-@if ($presenter->getReport()->is_fluid())
+@if ($report->is_fluid())
 	<div class='container-fluid'>
 @else
 	<div class='container'>
@@ -76,8 +76,8 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
         $.getJSON('{{ $summary_uri }}',
             {
-                'token': '{{ $presenter->getToken() }}',
-                'request-form-input': '{!! urlencode($presenter->getReport()->getRequestFormInput(true)) !!}',
+                'token': '{{ $report->getToken() }}',
+                'request-form-input': '{!! urlencode($report->getRequestFormInput(true)) !!}',
             }).fail(function(jqxhr, textStatus, error) {
             		doh_ajax_failed(jqxhr, textStatus, error);
 		})
@@ -94,10 +94,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     */
                     var callbackOrder = [];
 
-                    var passthrough_params = {!! $presenter->getReport()->getRequestFormInput( true ) !!};
+                    var passthrough_params = {!! $report->getRequestFormInput( true ) !!};
                     var merge_get_params = {
                         'data-option': '',
-                        'token': '{{ $presenter->getToken() }}',
+                        'token': '{{ $report->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
                         "order": callbackOrder,
                         "length": header_data.length,
@@ -125,7 +125,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			var new_row = false;
 			var is_empty = true;
 
-			var card_width = '{{ $presenter->getReport()->cardWidth() }}';
+			var card_width = '{{ $report->cardWidth() }}';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.

@@ -4,7 +4,9 @@ namespace CareSet\ZermeloBladeCard\Http\Controllers;
 
 use CareSet\Zermelo\Http\Controllers\AbstractWebController;
 use CareSet\Zermelo\Http\Requests\CardsReportRequest;
+use CareSet\Zermelo\Interfaces\ZermeloReportInterface;
 use CareSet\Zermelo\Models\Presenter;
+use CareSet\Zermelo\Models\ZermeloReport;
 
 class CardController extends AbstractWebController
 {
@@ -34,14 +36,12 @@ class CardController extends AbstractWebController
      *
      * Build presenter and push our required varialbes for this web view
      */
-    public function buildPresenter($report)
+    public function onBeforeShown(ZermeloReportInterface $report)
     {
-        $presenter = new Presenter($report);
         $bootstrap_css_location = asset(config('zermelobladecard.BOOTSTRAP_CSS_LOCATION'));
-        $presenter->pushViewVariable('bootstrap_css_location', $bootstrap_css_location);
-        $presenter->pushViewVariable('report_uri', $this->getReportUri($report));
-        $presenter->pushViewVariable('summary_uri', $this->getSummaryUri($report));
-        return $presenter;
+        $report->pushViewVariable('bootstrap_css_location', $bootstrap_css_location);
+        $report->pushViewVariable('report_uri', $this->getReportUri($report));
+        $report->pushViewVariable('summary_uri', $this->getSummaryUri($report));
     }
 
     /**
