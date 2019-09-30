@@ -29,4 +29,11 @@ class ZermeloBladeCardInstallCommand extends AbstractZermeloInstallCommand
      */
     protected $signature = 'zermelo:install_zermelobladecard
                     {--force : Overwrite existing views by default}';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Install Zermelo Card Tabular report view';
 }

@@ -21,7 +21,7 @@ class MakeCardsReportCommand extends Command
      *
      * @var string
      */
-    protected $description = '';
+    protected $description = 'Make a card report class using the template';
 
 
     /**
