@@ -38,7 +38,7 @@ class CardController extends AbstractWebController
      */
     public function onBeforeShown(ZermeloReportInterface $report)
     {
-        $bootstrap_css_location = asset(config('zermelobladecard.BOOTSTRAP_CSS_LOCATION'));
+        $bootstrap_css_location = asset(config('zermelobladecard.BOOTSTRAP_CSS_LOCATION','/css/bootstrap.min.css'));
         $report->pushViewVariable('bootstrap_css_location', $bootstrap_css_location);
         $report->pushViewVariable('report_uri', $this->getReportUri($report));
         $report->pushViewVariable('summary_uri', $this->getSummaryUri($report));
