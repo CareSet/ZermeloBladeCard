@@ -1,16 +1,16 @@
 <div class="container-fluid">
 	<div>
-		<h1> {{ $report->GetReportName()  }}</h1>
+		<h1> {{ $presenter->getReport()->GetReportName()  }}</h1>
 	</div>
 	<div>
-		{!! $report->GetReportDescription() !!}
+		{!! $presenter->getReport()->GetReportDescription() !!}
 	</div>
 
 	<div style='display: none' id='json_error_message' class="alert alert-danger" role="alert">
 
 	</div>
 
-@if ($report->is_fluid())
+@if ($presenter->getReport()->is_fluid())
 	<div class='container-fluid'>
 @else
 	<div class='container'>
@@ -35,16 +35,16 @@
 "></div>
 
 
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/popper.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.dataTables.yadcf.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/moment.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/daterangepicker.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/d3.v4.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.fixedcolumns.destroy.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.doubleScroll.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/popper.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/datatables.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/jquery.dataTables.yadcf.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/moment.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/daterangepicker.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/d3.v4.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/datatables.fixedcolumns.destroy.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/js/jquery.doubleScroll.js"></script>
 
 <script type="text/javascript">
 
@@ -74,10 +74,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
         var columnMap = [];
         var fixedColumns = null;
 
-        $.getJSON('{{ $summary_uri }}',
+        $.getJSON('{{ $presenter->getSummaryUri() }}',
             {
-                'token': '{{ $report->getToken() }}',
-                'request-form-input': '{!! urlencode($report->getRequestFormInput(true)) !!}',
+                'token': '{{ $presenter->getToken() }}',
+                'request-form-input': '{!! urlencode($presenter->getReport()->getRequestFormInput(true)) !!}',
             }).fail(function(jqxhr, textStatus, error) {
             		doh_ajax_failed(jqxhr, textStatus, error);
 		})
@@ -94,10 +94,9 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     */
                     var callbackOrder = [];
 
-                    var passthrough_params = {!! $report->getRequestFormInput( true ) !!};
+                    var passthrough_params = {!! $presenter->getReport()->getRequestFormInput( true ) !!};
                     var merge_get_params = {
-                        'data-option': '',
-                        'token': '{{ $report->getToken() }}',
+                        'token': '{{ $presenter->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
                         "order": callbackOrder,
                         "length": header_data.length,
@@ -112,7 +111,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     var param = decodeURIComponent( $.param(merge) );
 
 			//now lets get the actual data...
-                    $.getJSON('{{ $report_uri }}', param
+                    $.getJSON('{{ $presenter->getReportUri() }}', param
                     ).fail(function (jqxhr, textStatus, error){
             		doh_ajax_failed(jqxhr, textStatus, error);
 			console.log('I get to this fail');
@@ -125,7 +124,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			var new_row = false;
 			var is_empty = true;
 
-			var card_width = '{{ $report->cardWidth() }}';
+			var card_width = '{{ $presenter->getReport()->cardWidth() }}';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
@@ -136,21 +135,54 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 				//making the card gracefully simplify as data reduces...
 
 				if(isset(this_card.card_img_top)){
+
+					//sometimes images have alttext something they have links..
+					//this sorts all of this out
+
+					//by default do nothing..					
+					card_alt_text = '';
+					card_anchor_open = '';
+					card_anchor_close = '';
+
+					//if there is altext, use it
 					if(isset(this_card.card_img_top_alttext)){
-						card_img_top = `<img style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}" alt="${this_card.card_img_top_alttext}">`
-					}else{
-						card_img_top = `<img style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}">`
+						card_alt_text = ` alt="${this_card.card_img_top_alttext}" `;
 					}
+					//if there an an anchor use it
+					if(isset(this_card.card_img_top_anchor)){
+						card_anchor_open  = `<a target='_blank' href="${this_card.card_img_top_anchor}"> `;
+						card_anchor_close  = `<\a>`;
+					}
+
+					//this could be complex or simple depending on the above logic
+					card_img_top = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}"> ${card_anchor_close}`;
 				}else{
 					card_img_top = '';
 				}
 	
-				if(isset(this_card.card_img_bottom)){
+
+				if(isset(this_card.card_bottom)){
+
+					//sometimes images have alttext something they have links..
+					//this sorts all of this out
+
+					//by default do nothing..					
+					card_alt_text = '';
+					card_anchor_open = '';
+					card_anchor_close = '';
+
+					//if there is altext, use it
 					if(isset(this_card.card_img_bottom_alttext)){
-						card_img_bottom = `<img style="width: ${card_width}"  class="card-img-top" src="${this_card.card_img_bottom}" alt="${this_card.card_img_bottom_alttext}">`
-					}else{
-						card_img_bottom = `<img style="width: ${card_width}"  class="card-img-top" src="${this_card.card_img_bottom}">`
+						card_alt_text = ` alt="${this_card.card_img_top_alttext}" `;
 					}
+					//if there an an anchor use it
+					if(isset(this_card.card_img_bottom_anchor)){
+						card_anchor_open  = `<a target='_blank' href="${this_card.card_img_top_anchor}"> `;
+						card_anchor_close  = `<\a>`;
+					}
+
+					//this could be complex or simple depending on the above logic
+					card_img_bottom = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}"> ${card_anchor_close}`;
 				}else{
 					card_img_bottom = '';
 				}
@@ -158,25 +190,42 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 				if(isset(this_card.card_header)){
 					real_card_header = `<div class="card-header text-center">${this_card.card_header}</div>`;
 				}else{
-					real_card_header = ''
+					real_card_header = '';
 				}
 
 				if(isset(this_card.card_footer)){
 					real_card_footer = `<div class="card-header text-center">${this_card.card_footer}</div>`;
 				}else{
-					real_card_footer = ''
+					real_card_footer = '';
 				}
 
+				if(isset(this_card.card_title)){
+					real_card_title = `<h5 class='card-title'> ${this_card.card_title}</h5>`;
+				}else{
+					real_card_title = '';
+				}
+
+				if(isset(this_card.card_text)){
+					real_card_text = `<p class="card-text">${this_card.card_text}</p>`;
+				}else{
+					real_card_text = '';
+				}
+
+				text_plus_title = real_card_text + real_card_title;
+				text_plus_title = text_plus_title.trim(); //should make an empty string if they are both blank..
+				if(text_plus_title.length == 0){
+					//then we do not need the card-body at all..
+					real_card_body = '';
+				}else{
+					real_card_body = `<div class="card-body"> ${real_card_title} ${real_card_text}  </div>`;
+				}
 
 				cards_html += `
 <div class="col-auto mb-3">
 	<div style='width: ${card_width}' class="card" >
 		${card_img_top}
   		${real_card_header}
-  		<div class="card-body">
-    			<h5 class="card-title">${this_card.card_title}</h5>
-    			<p class="card-text">${this_card.card_text}</p>
-  		</div>
+		${real_card_body}
     		${real_card_footer}
 		${card_img_bottom}
 	</div>
@@ -233,3 +282,5 @@ function isset () {
 
 
 </script>
+
+
