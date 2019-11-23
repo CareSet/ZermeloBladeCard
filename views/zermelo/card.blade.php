@@ -1,16 +1,16 @@
 <div class="container-fluid">
 	<div>
-		<h1> {{ $presenter->getReport()->GetReportName()  }}</h1>
+		<h1> {{ $report->getReport()->GetReportName()  }}</h1>
 	</div>
 	<div>
-		{!! $presenter->getReport()->GetReportDescription() !!}
+		{!! $report->getReport()->GetReportDescription() !!}
 	</div>
 
 	<div style='display: none' id='json_error_message' class="alert alert-danger" role="alert">
 
 	</div>
 
-@if ($presenter->getReport()->is_fluid())
+@if ($report->getReport()->is_fluid())
 	<div class='container-fluid'>
 @else
 	<div class='container'>
@@ -52,7 +52,7 @@
 
 function doh_ajax_failed(jqxhr, textStatus, error){
 
-                var is_admin = true; //this should be set via a call to the presenter
+                var is_admin = true; //this should be set via a call to the report
 
                 if(is_admin){
                         if(typeof jqxhr.responseJSON.message !== 'undefined'){
@@ -74,10 +74,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
         var columnMap = [];
         var fixedColumns = null;
 
-        $.getJSON('{{ $presenter->getSummaryUri() }}',
+        $.getJSON('{{ $report->getSummaryUri() }}',
             {
-                'token': '{{ $presenter->getToken() }}',
-                'request-form-input': '{!! urlencode($presenter->getReport()->getRequestFormInput(true)) !!}',
+                'token': '{{ $report->getToken() }}',
+                'request-form-input': '{!! urlencode($report->getReport()->getRequestFormInput(true)) !!}',
             }).fail(function(jqxhr, textStatus, error) {
             		doh_ajax_failed(jqxhr, textStatus, error);
 		})
@@ -94,9 +94,9 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     */
                     var callbackOrder = [];
 
-                    var passthrough_params = {!! $presenter->getReport()->getRequestFormInput( true ) !!};
+                    var passthrough_params = {!! $report->getReport()->getRequestFormInput( true ) !!};
                     var merge_get_params = {
-                        'token': '{{ $presenter->getToken() }}',
+                        'token': '{{ $report->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
                         "order": callbackOrder,
                         "length": header_data.length,
@@ -111,7 +111,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     var param = decodeURIComponent( $.param(merge) );
 
 			//now lets get the actual data...
-                    $.getJSON('{{ $presenter->getReportUri() }}', param
+                    $.getJSON('{{ $report->getReportUri() }}', param
                     ).fail(function (jqxhr, textStatus, error){
             		doh_ajax_failed(jqxhr, textStatus, error);
 			console.log('I get to this fail');
@@ -124,7 +124,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			var new_row = false;
 			var is_empty = true;
 
-			var card_width = '{{ $presenter->getReport()->cardWidth() }}';
+			var card_width = '{{ $report->getReport()->cardWidth() }}';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
