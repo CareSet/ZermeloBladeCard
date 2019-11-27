@@ -1,16 +1,16 @@
 <div class="container-fluid">
 	<div>
-		<h1> {{ $report->getReport()->GetReportName()  }}</h1>
+		<h1> {{ $report->GetReportName()  }}</h1>
 	</div>
 	<div>
-		{!! $report->getReport()->GetReportDescription() !!}
+		{!! $report->GetReportDescription() !!}
 	</div>
 
 	<div style='display: none' id='json_error_message' class="alert alert-danger" role="alert">
 
 	</div>
 
-@if ($report->getReport()->is_fluid())
+@if ($report->is_fluid())
 	<div class='container-fluid'>
 @else
 	<div class='container'>
@@ -74,10 +74,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
         var columnMap = [];
         var fixedColumns = null;
 
-        $.getJSON('{{ $report->getSummaryUri() }}',
+        $.getJSON('{{ $summary_uri }}',
             {
                 'token': '{{ $report->getToken() }}',
-                'request-form-input': '{!! urlencode($report->getReport()->getRequestFormInput(true)) !!}',
+                'request-form-input': '{!! urlencode($report->getRequestFormInput(true)) !!}',
             }).fail(function(jqxhr, textStatus, error) {
             		doh_ajax_failed(jqxhr, textStatus, error);
 		})
@@ -94,7 +94,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     */
                     var callbackOrder = [];
 
-                    var passthrough_params = {!! $report->getReport()->getRequestFormInput( true ) !!};
+                    var passthrough_params = {!! $report->getRequestFormInput( true ) !!};
                     var merge_get_params = {
                         'token': '{{ $report->getToken() }}',
                         'page': (header_data.start / header_data.length) + 1,
@@ -111,7 +111,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
                     var param = decodeURIComponent( $.param(merge) );
 
 			//now lets get the actual data...
-                    $.getJSON('{{ $report->getReportUri() }}', param
+                    $.getJSON('{{ $report_uri }}', param
                     ).fail(function (jqxhr, textStatus, error){
             		doh_ajax_failed(jqxhr, textStatus, error);
 			console.log('I get to this fail');
@@ -124,7 +124,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			var new_row = false;
 			var is_empty = true;
 
-			var card_width = '{{ $report->getReport()->cardWidth() }}';
+			var card_width = '{{ $report->cardWidth() }}';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
