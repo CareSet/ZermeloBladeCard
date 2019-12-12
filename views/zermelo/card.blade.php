@@ -35,16 +35,16 @@
 "></div>
 
 
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/jquery-3.3.1.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/popper.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/bootstrap.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/datatables.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/jquery.dataTables.yadcf.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/moment.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/daterangepicker.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/d3.v4.min.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/datatables.fixedcolumns.destroy.js"></script>
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/g/jquery.doubleScroll.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/popper.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.dataTables.yadcf.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/moment.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/daterangepicker.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/d3.v4.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.fixedcolumns.destroy.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.doubleScroll.js"></script>
 
 <script type="text/javascript">
 
