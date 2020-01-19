@@ -121,6 +121,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 			var cards_html = "<div class='row justify-content-left'>";
 			var i = 0;
+			var block_count = 1;
 			var new_row = false;
 			var is_empty = true;
 
@@ -220,9 +221,49 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 					real_card_body = `<div class="card-body"> ${real_card_title} ${real_card_text}  </div>`;
 				}
 
+				if(isset(this_card.card_layout_block_id)){
+					//then we are shifting the background color of the cards...
+					//and the 'newline' of the groups of cards to delinate a grouping of cards...
+
+					if(i != 0){
+						if(last_block_id == this_card.card_layout_block_id){
+							//great! there is nothing to do...
+							real_card_new_row = '';
+							//we keep the current block class !!
+						}else{
+
+							block_count++; //this is a new block!!
+
+							//well now a change has occured...
+							real_card_new_row = `<div class="w-100"></div>`;
+							//reset the last block id to this new one
+							last_block_id = this_card.card_layout_block_id;
+
+							if( block_count % 2 == 0){
+								//this is an 'even' row and needs to be colored differently..
+								block_class = ' text-white bg-secondary ';
+							}else{
+								//change it back!!
+								block_class = ' bg-light ';
+							}
+
+						}									
+					}else{ //then this is the very first row.. lets setup our variables...
+						last_block_id = this_card.card_layout_block_id;
+						//no newline to start
+						real_card_new_row = '';
+						//and we want to alternate this... but we start with the light setting..
+						block_class = ' bg-light ';
+					}
+
+				}
+
+
 				cards_html += `
+		${real_card_new_row}
+
 <div class="col-auto mb-3">
-	<div style='width: ${card_width}' class="card" >
+	<div style='width: ${card_width}' class="card ${block_class} " >
 		${card_img_top}
   		${real_card_header}
 		${real_card_body}
@@ -230,6 +271,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 		${card_img_bottom}
 	</div>
 </div>
+
 `;
 				i++;
 	
