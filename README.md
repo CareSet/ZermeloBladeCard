@@ -68,6 +68,12 @@ and you should see the content
         //card_img_top_alttext sets the alttext of the image at the top
         //card_img_bottom_alttext sets the alttext of the image at the bottom
         //card_footer is the text inside the footer of the card
+	//card_layout_block_id this is any identifier you would like to use to label a sequential group of cards... by changing this for a sequential group 
+	//	The cards will move to a new row (if they have not already) and they will switch between black text/white background to 
+	//	white text on a grey background.. this is basically the same as the 'zebra' effect that is often used on. If this is not set, the cards 
+	//	simply all use the black text/white background for all the cards...
+	//card_layout_block_label this will be used as the heading before a new grouping of cards, if it is set.
+	//card_layout_block_url if you have a block label, you can turn it into a link by setting this field..
 
         $sql = "
 SELECT

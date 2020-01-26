@@ -126,6 +126,9 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 			var is_empty = true;
 
 			var card_width = '{{ $report->cardWidth() }}';
+			var real_card_new_row = '';
+			var real_card_group_label = '';
+			var block_class = '';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
@@ -228,14 +231,32 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 					if(i != 0){
 						if(last_block_id == this_card.card_layout_block_id){
 							//great! there is nothing to do...
+							//but we do need to potentially reset some things that were done before the last card..
 							real_card_new_row = '';
+							real_card_group_label = '';
+		
+				
+
 							//we keep the current block class !!
+							//so we do not touch that here...							
 						}else{
 
 							block_count++; //this is a new block!!
 
-							//well now a change has occured...
+							//well now a change has occured... we need a newline for sure and possibly a new label..
 							real_card_new_row = `<div class="w-100"></div>`;
+							if(isset(this_card.card_layout_block_label)){ //we have a label... so we will use it to seperate the card blocks
+								if(isset(this_card.card_layout_block_url)){ //then we also have a url for the label
+									real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
+								}else{ //we have the label but no url here...
+									real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+								}
+							}else{
+								real_card_group_label = '';
+							}
+
+
+
 							//reset the last block id to this new one
 							last_block_id = this_card.card_layout_block_id;
 
@@ -248,12 +269,26 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 							}
 
 						}									
-					}else{ //then this is the very first row.. lets setup our variables...
+					}else{ //then this is the very first card.. lets setup our variables...
 						last_block_id = this_card.card_layout_block_id;
+
+
 						//no newline to start
 						real_card_new_row = '';
-						//and we want to alternate this... but we start with the light setting..
+
+						//but we do want to have a label
+						if(isset(this_card.card_layout_block_label)){
+							if(isset(this_card.card_layout_block_url)){
+								real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
+							}else{
+								real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+							}
+						}else{
+							real_card_group_label = '';
+						}
+						//and we want to alternate style of the card... but we start with the light setting..
 						block_class = ' bg-light ';
+					
 					}
 
 				}
@@ -261,6 +296,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 				cards_html += `
 		${real_card_new_row}
+		${real_card_group_label} 
 
 <div class="col-auto mb-3">
 	<div style='width: ${card_width}' class="card ${block_class} " >
