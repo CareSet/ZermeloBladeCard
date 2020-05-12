@@ -35,7 +35,7 @@
 "></div>
 
 
-<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/popper.min.js"></script>
 <script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.min.js"></script>
@@ -121,10 +121,14 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 			var cards_html = "<div class='row justify-content-left'>";
 			var i = 0;
+			var block_count = 1;
 			var new_row = false;
 			var is_empty = true;
 
 			var card_width = '{{ $report->cardWidth() }}';
+			var real_card_new_row = '';
+			var real_card_group_label = '';
+			var block_class = '';
 
 			data.data.forEach(function(this_card) {
 				is_empty = false; //we hqve at least one.
@@ -220,9 +224,82 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 					real_card_body = `<div class="card-body"> ${real_card_title} ${real_card_text}  </div>`;
 				}
 
+				if(isset(this_card.card_layout_block_id)){
+					//then we are shifting the background color of the cards...
+					//and the 'newline' of the groups of cards to delinate a grouping of cards...
+
+					if(i != 0){
+						if(last_block_id == this_card.card_layout_block_id){
+							//great! there is nothing to do...
+							//but we do need to potentially reset some things that were done before the last card..
+							real_card_new_row = '';
+							real_card_group_label = '';
+		
+				
+
+							//we keep the current block class !!
+							//so we do not touch that here...							
+						}else{
+
+							block_count++; //this is a new block!!
+
+							//well now a change has occured... we need a newline for sure and possibly a new label..
+							real_card_new_row = `<div class="w-100"></div>`;
+							if(isset(this_card.card_layout_block_label)){ //we have a label... so we will use it to seperate the card blocks
+								if(isset(this_card.card_layout_block_url)){ //then we also have a url for the label
+									real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
+								}else{ //we have the label but no url here...
+									real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+								}
+							}else{
+								real_card_group_label = '';
+							}
+
+
+
+							//reset the last block id to this new one
+							last_block_id = this_card.card_layout_block_id;
+
+							if( block_count % 2 == 0){
+								//this is an 'even' row and needs to be colored differently..
+								block_class = ' text-white bg-secondary ';
+							}else{
+								//change it back!!
+								block_class = ' bg-light ';
+							}
+
+						}									
+					}else{ //then this is the very first card.. lets setup our variables...
+						last_block_id = this_card.card_layout_block_id;
+
+
+						//no newline to start
+						real_card_new_row = '';
+
+						//but we do want to have a label
+						if(isset(this_card.card_layout_block_label)){
+							if(isset(this_card.card_layout_block_url)){
+								real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
+							}else{
+								real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+							}
+						}else{
+							real_card_group_label = '';
+						}
+						//and we want to alternate style of the card... but we start with the light setting..
+						block_class = ' bg-light ';
+					
+					}
+
+				}
+
+
 				cards_html += `
+		${real_card_new_row}
+		${real_card_group_label} 
+
 <div class="col-auto mb-3">
-	<div style='width: ${card_width}' class="card" >
+	<div style='width: ${card_width}' class="card ${block_class} " >
 		${card_img_top}
   		${real_card_header}
 		${real_card_body}
@@ -230,6 +307,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 		${card_img_bottom}
 	</div>
 </div>
+
 `;
 				i++;
 	
