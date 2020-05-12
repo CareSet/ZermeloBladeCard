@@ -6,21 +6,21 @@ use CareSet\Zermelo\Console\AbstractZermeloInstallCommand;
 
 class ZermeloBladeCardInstallCommand extends AbstractZermeloInstallCommand
 {
-    protected $view_path = __DIR__.'/../../views';
-
-    protected $asset_path = __DIR__.'/../../assets';
-
-    protected $config_file = __DIR__.'/../../config/zermelobladecard.php';
-
     /**
      * The views that need to be exported.
      *
      * @var array
      */
-    protected $views = [
+    public static $views = [
         'zermelo/card.blade.php',
         'zermelo/layouts/card.blade.php',
     ];
+
+    protected static $view_path = __DIR__.'/../../views';
+
+    protected static $asset_path = __DIR__.'/../../assets';
+
+    protected static $config_file = __DIR__.'/../../config/zermelobladecard.php';
 
     /**
      * The name and signature of the console command.
