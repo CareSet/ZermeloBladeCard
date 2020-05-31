@@ -257,10 +257,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 								}
 								//we have a label, with or without a link..	
 								real_card_group_label = `
-	<div class="col-auto mb-12">
+</div> <!-- end the row -->	<div class="zermelo-card-group-label">
 <h3> ${group_label_open_a} ${this_card.card_layout_block_label} ${group_label_close_a} </h3>
 	</div> <!-- end the big column -->
-</div> <!-- end the row --> <div class='row'>
+ <div class='row'>
 `;	
 							}else{
 								//there was no label... so we just need to have a newline between the rows...
@@ -299,10 +299,10 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 							}
 								//we have a label, with or without a link..	
 								real_card_group_label = `
-	<div class="col-auto mb-12">
+</div><!-- end the row -->	<div class="zermelo-card-group-label">
 <h3> ${group_label_open_a} ${this_card.card_layout_block_label} ${group_label_close_a} </h3>
 	</div> <!-- end the big column -->
-</div> <!-- end the row --> <div class='row'>
+ <div class='row'>
 `;	
 						}else{
 							real_card_group_label = '';
