@@ -228,7 +228,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 					//then we are shifting the background color of the cards...
 					//and the 'newline' of the groups of cards to delinate a grouping of cards...
 
-					if(i != 0){
+					if(i != 0){ // then this is not the first card.
 						if(last_block_id == this_card.card_layout_block_id){
 							//great! there is nothing to do...
 							//but we do need to potentially reset some things that were done before the last card..
@@ -244,14 +244,26 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 							block_count++; //this is a new block!!
 
 							//well now a change has occured... we need a newline for sure and possibly a new label..
-							real_card_new_row = `<div class="w-100"></div>`;
+							//real_card_new_row = `<div class="w-100"></div>`;
+							real_card_new_row = `</div> <!-- end row --> <div class="row"> `;
 							if(isset(this_card.card_layout_block_label)){ //we have a label... so we will use it to seperate the card blocks
+								//is there a link or not?
 								if(isset(this_card.card_layout_block_url)){ //then we also have a url for the label
-									real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
+									group_label_open_a = `<a target='_blank' href='${this_card.card_layout_block_url}'>`;
+									group_label_close_a = `</a>`;
 								}else{ //we have the label but no url here...
-									real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+									group_label_open_a = '';
+									group_label_close_a = '';
 								}
+								//we have a label, with or without a link..	
+								real_card_group_label = `
+	<div class="col-auto mb-12">
+<h3> ${group_label_open_a} ${this_card.card_layout_block_label} ${group_label_close_a} </h3>
+	</div> <!-- end the big column -->
+</div> <!-- end the row --> <div class='row'>
+`;	
 							}else{
+								//there was no label... so we just need to have a newline between the rows...
 								real_card_group_label = '';
 							}
 
@@ -278,11 +290,20 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 						//but we do want to have a label
 						if(isset(this_card.card_layout_block_label)){
-							if(isset(this_card.card_layout_block_url)){
-								real_card_group_label = `<h3> <a target='_blank' href='${this_card.card_layout_block_url}'> ${this_card.card_layout_block_label} </a> </h3> <div class="w-100"></div>`;	
-							}else{
-								real_card_group_label = `<h3> ${this_card.card_layout_block_label} </h3> <div class="w-100"></div>`;
+							if(isset(this_card.card_layout_block_url)){ //then we also have a url for the label
+								group_label_open_a = `<a target='_blank' href='${this_card.card_layout_block_url}'>`;
+								group_label_close_a = `</a>`;
+							}else{ //we have the label but no url here...
+								group_label_open_a = '';
+								group_label_close_a = '';
 							}
+								//we have a label, with or without a link..	
+								real_card_group_label = `
+	<div class="col-auto mb-12">
+<h3> ${group_label_open_a} ${this_card.card_layout_block_label} ${group_label_close_a} </h3>
+	</div> <!-- end the big column -->
+</div> <!-- end the row --> <div class='row'>
+`;	
 						}else{
 							real_card_group_label = '';
 						}
