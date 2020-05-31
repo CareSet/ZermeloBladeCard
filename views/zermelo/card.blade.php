@@ -165,7 +165,7 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 				}
 	
 
-				if(isset(this_card.card_bottom)){
+				if(isset(this_card.card_img_bottom)){
 
 					//sometimes images have alttext something they have links..
 					//this sorts all of this out
@@ -177,16 +177,16 @@ function doh_ajax_failed(jqxhr, textStatus, error){
 
 					//if there is altext, use it
 					if(isset(this_card.card_img_bottom_alttext)){
-						card_alt_text = ` alt="${this_card.card_img_top_alttext}" `;
+						card_alt_text = ` alt="${this_card.card_img_bottom_alttext}" `;
 					}
 					//if there an an anchor use it
 					if(isset(this_card.card_img_bottom_anchor)){
-						card_anchor_open  = `<a target='_blank' href="${this_card.card_img_top_anchor}"> `;
+						card_anchor_open  = `<a target='_blank' href="${this_card.card_img_bottom_anchor}"> `;
 						card_anchor_close  = `<\a>`;
 					}
 
 					//this could be complex or simple depending on the above logic
-					card_img_bottom = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}"> ${card_anchor_close}`;
+					card_img_bottom = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-bottom" src="${this_card.card_img_bottom}"> ${card_anchor_close}`;
 				}else{
 					card_img_bottom = '';
 				}
