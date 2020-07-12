@@ -214,13 +214,28 @@
 															real_card_text = '';
 														}
 
-														text_plus_title = real_card_text + real_card_title;
-														text_plus_title = text_plus_title.trim(); //should make an empty string if they are both blank..
-														if(text_plus_title.length == 0){
-															//then we do not need the card-body at all..
-															real_card_body = '';
+														//card_body is better for direct html... card_text is better for just text...
+														if(isset(this_card.card_body)){
+															real_card_body = `${this_card.card_body}`;
 														}else{
-															real_card_body = `<div class="card-body"> ${real_card_title} ${real_card_text}  </div>`;
+															real_card_body = '';
+														}
+
+														if(isset(this_card.card_body_class)){
+
+															card_body_class = `${this_card.card_body_class}`;
+														}else{
+															card_body_class = 'p-1'; //pretty compact by default
+														}
+		
+
+														text_plus = real_card_text + real_card_title + real_card_body;
+														text_plus = text_plus.trim(); //should make an empty string if they are both blank..
+														if(text_plus.length == 0){
+															//then we do not need the card-body at all..
+															merged_card_body = '';
+														}else{
+															merged_card_body = `<div class="card-body ${card_body_class}"> ${real_card_title} ${real_card_text} ${real_card_body}  </div>`;
 														}
 
 														if(isset(this_card.card_layout_block_id)){
@@ -322,7 +337,7 @@
 															<div style='width: ${card_width}' class="card ${block_class} " >
 																	${card_img_top}
 																	${real_card_header}
-																	${real_card_body}
+																	${merged_card_body}
 																	${real_card_footer}
 																	${card_img_bottom}
 															</div>
