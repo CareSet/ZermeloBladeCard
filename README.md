@@ -94,7 +94,7 @@ FROM zermelo_cards.cards
 
 ```
 
-<img src='https://raw.githubusercontent.com/CareSet/ZermeloBladeCard/master/docs/Zermelo_card_layout_visual.png' width=400>
+<img src='/docs/Zermelo_card_layout_visual.png' width=400>
 
 
 
