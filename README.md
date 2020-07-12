@@ -69,7 +69,8 @@ and you should see the content
         //card_img_top_alttext sets the alttext of the image at the top
         //card_img_bottom_alttext sets the alttext of the image at the bottom
         //card_footer is the text inside the footer of the card
-
+	//card_body is any card-body content that will come after card-title, card-text
+	//card_body_class is any additional css classes to control how the card-body div will act (the card-body div contains the card_title, card_text, and then anything you put into card_body
 
 	//Card Block Layout Columns
 	//card_layout_block_id this is any identifier you would like to use to label a sequential group of cards... by changing this for a sequential group 
