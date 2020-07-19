@@ -197,7 +197,7 @@
 														}
 
 														if(isset(this_card.card_footer)){
-															real_card_footer = `<div class="card-header text-center">${this_card.card_footer}</div>`;
+															real_card_footer = `<div class="card-footer text-center">${this_card.card_footer}</div>`;
 														}else{
 															real_card_footer = '';
 														}
