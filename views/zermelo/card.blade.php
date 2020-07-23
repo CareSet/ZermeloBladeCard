@@ -45,6 +45,7 @@
 					<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.fixedcolumns.destroy.js"></script>
 					<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.doubleScroll.js"></script>
 
+		
 					<script type="text/javascript">
 
 
@@ -398,7 +399,10 @@ function isset () {
   return true
 }
 
-
+// Tooltips Initialization
+$(function () {
+$('[data-toggle="tooltip"]').tooltip()
+})
 
 
 </script>
