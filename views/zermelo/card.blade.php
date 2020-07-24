@@ -1,6 +1,7 @@
 <div class="container-fluid">
-	<div>
-		<h1> {{ $report->GetReportName()  }}</h1>
+	<div class="card-header row">
+		<h1 class="card-title"> {{ $report->GetReportName()  }}</h1>
+		<button type="button" class="btn btn-primary btn-block view-data-options"> Data Options </button>
 	</div>
 	<div>
 		{!! $report->GetReportDescription() !!}
@@ -227,7 +228,7 @@
 														}else{
 															card_body_class = 'p-1'; //pretty compact by default
 														}
-		
+
 
 														text_plus = real_card_text + real_card_title + real_card_body;
 														text_plus = text_plus.trim(); //should make an empty string if they are both blank..
@@ -399,8 +400,120 @@ function isset () {
 }
 
 
+// Data view modal and sockets control
 
+// Socket API payload
+var sockets = {};
+var activeWrenchNames = [];
+
+// Refresh sockets on page reload, in case we had options set, and did a "refresh"
+refresh_sockets();
+
+function refresh_sockets() {
+
+	// Get the socket inputs by selecting from socket form, using socket class
+	let form_data = $("#sockets-form .socket").serializeArray();
+
+	// Empty sockets array before we refill it
+	sockets = {};
+
+	// The active wrnch names are used for download optons to display the data options that are in-use
+	activeWrenchNames = [];
+
+	jQuery.each( form_data, function( i, field ) {
+
+		// name attribute of input contains wrench id
+		let name = field.name;
+
+		// socket id is in value attribute
+		let socketId = field.value;
+
+		// Wrench ID is in brackets, need to parse out
+		let wrenchId = name.slice(name.indexOf('[') +1,name.indexOf(']'));
+
+		// Store the wrenches/sockets in the same format as they would be submitted by form
+		sockets[wrenchId]= socketId;
+
+		// Build the id, which contains both wrench id and socket id
+		let id = "wrench-"+wrenchId+"-socket-"+socketId;
+
+		// Now store the labels if we need to display active data options
+		let wrenchLabel = $('#'+id).attr('data-wrench-label');
+		let socketLabel = $('#'+id).attr('data-socket-label');
+		activeWrenchNames.push({
+			wrenchLabel: wrenchLabel,
+			socketLabel: socketLabel
+		});
+	});
+}
+$(document).ready(function () {
+	$("#save-sockets").click( function(e) {
+		// Get the sockets from the Data Options form
+		refresh_sockets();
+		$('#current_data_view').modal('toggle');
+		$("#sockets-form").submit();
+	});
+
+	$(".view-data-options").click(function() {
+		$('#current_data_view').modal('toggle');
+	});
+});
 
 </script>
 
+<!-- Data View Modal -->
+<div class="modal fade" id="current_data_view" tabindex="-1" role="dialog" aria-labelledby="current_data_view" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<form id="sockets-form" method="post">
+				{{ csrf_field() }}
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Data Options</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					@if ($report->hasActiveWrenches())
+						<div class="row">
+							<div class="col-5">
+								<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+									@foreach ($report->getActiveWrenches() as $wrench)
+										<a class="nav-link {{ ($loop->first) ?  'active' : '' }}" id="v-pills-{{$wrench->id}}-tab" data-toggle="pill" href="#v-pills-{{$wrench->id}}" role="tab" aria-controls="v-pills-{{$wrench->id}}" aria-selected="true">{{ $wrench->wrench_label }}</a>
+									@endforeach
+								</div>
+							</div>
+							<div class="col-7">
+								<div class="tab-content" id="v4-pills-tabContent">
+									@foreach ($report->getActiveWrenches() as $wrench )
+										<div class="tab-pane fade show {{ ($loop->first) ?  'active' : '' }}" id="v-pills-{{$wrench->id}}" role="tabpanel" aria-labelledby="v-pills-{{$wrench->id}}-tab">
+											@foreach ( $wrench->sockets as $socket )
+												<div class="custom-control custom-radio">
+													<input {{ $report->isActiveSocket($socket->id) ? 'checked' : '' }} type="radio" data-wrench-id="{{$wrench->id}}" data-socket-id="{{$socket->id}}" id="wrench-{{$wrench->id}}-socket-{{$socket->id}}" name="sockets[{{$wrench->id}}]" value="{{$socket->id}}" data-wrench-label="{{ $wrench->wrench_label }}" data-socket-label="{{$socket->socket_label}}" class="socket custom-control-input">
+													<label class="custom-control-label" for="wrench-{{$wrench->id}}-socket-{{$socket->id}}">{{$socket->socket_label}}</label>
+												</div>
+											@endforeach
+										</div>
+									@endforeach
+								</div>
+							</div>
+						</div>
+					@else
+					<!-- we only get here if there are no active wrenches -->
+						<div class="row">
+							<div class='col-12'>
+								No Data Options have been configured for this report
+							</div>
+						</div>
+					@endif
 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					<button type="button" id="save-sockets" class="btn btn-primary">Save changes</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div> <!-- end of data view options modal -->
+</div>
