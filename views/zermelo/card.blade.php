@@ -46,7 +46,7 @@
 					<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/datatables.fixedcolumns.destroy.js"></script>
 					<script type="text/javascript" src="/vendor/CareSet/zermelobladecard/js/jquery.doubleScroll.js"></script>
 
-		
+
 					<script type="text/javascript">
 
 
@@ -400,16 +400,12 @@ function isset () {
   return true
 }
 
-<<<<<<< HEAD
-
-// Data view modal and sockets control
-=======
 // Tooltips Initialization
 $(function () {
 $('[data-toggle="tooltip"]').tooltip()
 })
->>>>>>> d291785d78348ecb36364ca1e264aa442ccda396
 
+// Data view modal and sockets control
 // Socket API payload
 var sockets = {};
 var activeWrenchNames = [];
