@@ -5,8 +5,17 @@ use CareSet\Zermelo\Reports\Cards\AbstractCardsReport;
 class {{ report_name }} extends AbstractCardsReport
 {
 
-    public function GetReportName(): string { return('{{ report_name }}'); }
-    public function GetReportDescription(): ?string { return('Enter Your Report Description Here HTML is allowed for forms and such. Example reports on mysql table metadata'); }
+    public function GetReportName(): string { 
+	$report_name = 
+		'{{ report_name }}';
+	return($report_name); 
+    }
+
+    public function GetReportDescription(): ?string { 
+	$desc = 
+		"Enter Your Report Description Here HTML is allowed for forms and such. Example reports on mysql table metadata";
+	return($desc);
+    }
 
     //should this card view use a fluid boostrap container
     public function is_fluid() { return true; }
@@ -150,6 +159,14 @@ FROM information_schema.COLUMNS
     */
    public function howLongToCacheInSeconds(){
         return(1200); //twenty minutes by default
+   }
+
+    /**
+    * This function will determine if replacing /ZermeloCard/ with /ZeremeloSQL/ will show the SQL of the report
+    * for security reasons it should be off by default.
+    */
+   public function isSQLPrintEnabled(): bool{
+         return(false); //protect the sql by default
    }
 
 
