@@ -1,7 +1,9 @@
 <div class="container-fluid">
 	<div class="card-header row">
 		<h1 class="card-title"> {{ $report->GetReportName()  }}</h1>
-		<button type="button" class="btn btn-primary btn-block view-data-options"> Data Options </button>
+		@if ($report->hasActiveWrenches())
+			<button type="button" class="btn btn-primary btn-block view-data-options"> Data Options </button>
+		@endif
 	</div>
 	<div>
 		{!! $report->GetReportDescription() !!}
