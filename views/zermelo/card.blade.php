@@ -128,7 +128,7 @@
 													var new_row = false;
 													var is_empty = true;
 
-													var card_width = '{{ $report->cardWidth() }}';
+													var default_card_width = '{{ $report->cardWidth() }}';
 													var real_card_new_row = '';
 													var real_card_group_label = '';
 													var block_class = '';
@@ -141,6 +141,13 @@
 														//that those sections simply do not show up...
 														//making the card gracefully simplify as data reduces...
 
+														if(isset(this_card.card_width)){
+															//this is lovely, it is set in the data... lets use that!!
+														}else{	
+															//well lets use the default for the report as defined above (which was ultiately sources using the $report->cardWidth() function
+															this_card.card_width = default_card_width;
+														}
+							
 														if(isset(this_card.card_img_top)){
 
 															//sometimes images have alttext something they have links..
@@ -162,7 +169,7 @@
 															}
 
 															//this could be complex or simple depending on the above logic
-															card_img_top = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-top" src="${this_card.card_img_top}"> ${card_anchor_close}`;
+															card_img_top = `${card_anchor_open} <img ${card_alt_text} style="width: ${this_card.card_width}" class="card-img-top" src="${this_card.card_img_top}"> ${card_anchor_close}`;
 														}else{
 															card_img_top = '';
 														}
@@ -189,7 +196,7 @@
 															}
 
 															//this could be complex or simple depending on the above logic
-															card_img_bottom = `${card_anchor_open} <img ${card_alt_text} style="width: ${card_width}" class="card-img-bottom" src="${this_card.card_img_bottom}"> ${card_anchor_close}`;
+															card_img_bottom = `${card_anchor_open} <img ${card_alt_text} style="width: ${this_card.card_width}" class="card-img-bottom" src="${this_card.card_img_bottom}"> ${card_anchor_close}`;
 														}else{
 															card_img_bottom = '';
 														}
@@ -338,7 +345,7 @@
 																	${real_card_group_label}
 
 															<div class="col-auto mb-3">
-															<div style='width: ${card_width}' class="card ${block_class} " >
+															<div style='width: ${this_card.card_width}' class="card ${block_class} " >
 																	${card_img_top}
 																	${real_card_header}
 																	${merged_card_body}
