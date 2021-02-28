@@ -28,7 +28,10 @@ This may ask you to confirm the replacement of some assets... you can safely cho
 ### How the cards work
 The cards are based on the [bootstrap card system](https://getbootstrap.com/docs/4.1/getting-started/introduction/) implemented using blade templates..
 
+There are several functions that appear in a card report that do not appear in other report types, specifically: 
 
+* The is_fluid() function determines if a fluid layout will be used
+* the cardWidth() function sets the default width of every card (which you can control with data by including a card_width in the report. Both of these will support valudes that belong in a "style" parameter of the card div. Like style='width: 200px' or style='width: 80%'. In this case, you would return just '200px' or '80%' in either the cardWidth function or in the card_width data field below. 
 
 ### Run an example
 To test if you have installed correctly, see if you have Zermelo Card urls in your route using artisan..
@@ -71,6 +74,7 @@ and you should see the content
         //card_footer is the text inside the footer of the card
 	//card_body is any card-body content that will come after card-title, card-text
 	//card_body_class is any additional css classes to control how the card-body div will act (the card-body div contains the card_title, card_text, and then anything you put into card_body
+	//card_width the width of this card. If set will override the value from the cardWidth() function which can be used to set a default for the report... 
 
 	//Card Block Layout Columns
 	//card_layout_block_id this is any identifier you would like to use to label a sequential group of cards... by changing this for a sequential group 
